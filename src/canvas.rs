@@ -27,6 +27,14 @@ impl Canvas {
         self.pixels[(y * self.width + x) as usize] = color;
     }
 
+    pub fn rect(&mut self, x: i32, y: i32, width: i32, height: i32, color: Color) {
+        for i in x..x + width {
+            for j in y..y + height {
+                self.set_pixel(i, j, color);
+            }
+        }
+    }
+
     pub fn print_pbm(&self) {
         println!("P1\n{} {}", self.width, self.height);
         for pixel in self.pixels.iter() {
