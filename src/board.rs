@@ -1,3 +1,5 @@
+use crate::canvas::{Canvas, Color};
+
 #[derive(Clone, Copy, PartialEq)]
 pub enum State {
     Dead,
@@ -77,12 +79,18 @@ impl Board {
         }
         board
     }
+
+    pub fn render(&self) -> Canvas {
+        let mut c = Canvas::new(self.width * 10, self.height * 10);
+
+        for j in 0..self.height {
+            for i in 0..self.width {
+                if self.get_cell(i, j) == State::Alive {
+                    c.rect(i * 10, j * 10, 10, 10, Color::Black);
+                }
+            }
+        }
+
+        c
+    }
 }
-
-// OOO
-// O.O
-// OOO
-
-// - martwa komórka, która ma dokładnie 3 żywych sąsiadów, staje się żywa, inaczej zostaje martwa
-// - żywa komórka z 2 lub 3 żywymi sąsiadami zostaje żywa, inaczej umiera
-// count_neighbors(x, y) -> liczba żywych sąsiadów

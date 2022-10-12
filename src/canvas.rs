@@ -1,3 +1,6 @@
+use std::fs::File;
+use std::io::Write;
+
 #[derive(Clone, Copy, PartialEq)]
 pub enum Color {
     Black,
@@ -45,5 +48,20 @@ impl Canvas {
             }
         }
         println!("");
+    }
+
+    pub fn save_pbm(&self, file_name: &str) -> Result<(), std::io::Error> {
+        let mut f = File::create(file_name)?;
+        writeln!(f, "P1\n{} {}", self.width, self.height)?;
+        for pixel in self.pixels.iter() {
+            if pixel == &Color::Black {
+                write!(f, "1 ")?;
+            } else {
+                write!(f, "0 ")?;
+            }
+        }
+        writeln!(f, "")?;
+
+        Ok(())
     }
 }
